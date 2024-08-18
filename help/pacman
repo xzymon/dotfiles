@@ -1,0 +1,15 @@
+
+pacman-key --init
+pacman-key --populate
+
+# when you get problem with signatures of packages
+pacman-key --refresh-keys
+
+# upgrade system
+# -S stands for sync, which tells pacman to synchronize the package databases and install or update packages.
+# -y tells pacman to refresh the package database from the repositories.
+# -u tells pacman to upgrade all the packages that are out-of-date on your system.
+pacman -Syu
+
+# query installed packages -> list packages installed locally
+pacman -Q
