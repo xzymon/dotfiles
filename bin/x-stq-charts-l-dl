@@ -1,0 +1,40 @@
+#!/bin/bash
+
+my_function() {
+    # Access the first parameter as $1
+    local valor_code=$1
+    local curl_date=$2
+    local position=$3
+
+    # Print the parameter
+    echo "Line $position: $valor_code $date"
+    curl -o ln_${curl_date}.png "https://stooq.pl/c/?s=${valor_code}&d=${curl_date}&c=1d&t=l&a=ln&b"
+
+    min=1
+    max=5
+    random_number=$((RANDOM % (max - min + 1) + min))
+#    echo "Now sleep ${random_number}"
+#    sleep ${random_number}
+}
+
+
+if [ $# -ne 2 ]; then
+	echo "Usage: $0 <valor> <file-with-dates>"
+	exit 1
+fi
+
+if [ ! -f "$2" ]; then
+    echo "File not found: $2"
+    exit 1
+fi
+
+valor=$1
+file=$2
+	
+lineIt=0
+# Read the file line by line
+while IFS= read -r line; do
+	my_function $valor $line $lineIt
+	lineIt=$((lineIt+1))
+done < "$file"
+

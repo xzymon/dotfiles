@@ -1,0 +1,46 @@
+#!/bin/bash
+
+RFILE=$1
+
+PROG='wget -c'
+
+if [[ -e $RFILE ]]; then
+echo "file exists!"
+
+linesCount=0
+  while read line; do
+      echo $line
+      fileByLine+=($line)
+      linesCount=$((linesCount+1))
+  done < $RFILE
+
+echo "linesCount is $linesCount"
+i=0
+echo "i is $i"
+
+until [[ i -ge $linesCount ]]; do
+  START_DATE=`date`
+  echo $START_DATE
+  echo "$((i+1)) / $linesCount"
+  #echo ${fileByLine[i]}
+  echo "$PROG ${fileByLine[i]}"
+  `$PROG ${fileByLine[i]}`
+  #echo "awakening! result of last task is $?"
+  #echo "now lets see file content..."
+  i=$((i+1))
+  linesCount=0
+  while read line; do
+      fileByLine+=($line)
+      linesCount=$((linesCount+1))
+  done < $RFILE
+done
+
+if [[ i -ge $linesCount ]]; then
+  echo "osiagnieto warunek konca programu"
+else
+  echo "zakonczono, pomimo nie osiagniecia warunku konca (ale jak to?)"
+fi
+
+else
+  echo "please give the file name as parameter!"
+fi

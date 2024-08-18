@@ -1,0 +1,22 @@
+#!/bin/bash
+
+IMG_PATH=~/Audio/ffmpeg
+
+if [[ ! -d $IMG_PATH ]] ; then
+	mkdir -p $IMG_PATH
+	if [[ $? -eq 0 ]] ; then
+		notify-send 'New directory' "Directory $IMG_PATH created"
+	else
+		notify-send 'Error' "Cant create directory $IMG_PATH"
+	fi
+fi
+
+if [[ -d $IMG_PATH ]] ; then
+	cd $IMG_PATH
+	NEWFILE_NAME=`date +"%Y-%m-%dT%H-%M-%S_a_128k.mp3"`
+#	ffmpeg -f x11grab -s 1920x1080 -i :0.0 -f pulse -ac 2 -i alsa_output.pci-0000_00_1f.3.analog-stereo.monitor $NEWFILE_NAME
+	ffmpeg -f pulse -i 0 -c:a libmp3lame -b:a 128k $NEWFILE_NAME
+	notify-send 'Audio recording stopped' "File: ${NEW_FILE_NAME} created"
+	cd -
+fi
+

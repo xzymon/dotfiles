@@ -1,0 +1,66 @@
+#!/bin/sh
+WEA_API_KEY='54d1fd8038e147b499c94137240105'
+LOCATION='Bialystok'
+
+DATE_TIME=`date +"%Y%m%dT%H%M%S"`;
+DATUM_STORAGE_DIR='/opt/xmobar/weather/historical'
+FILE_NAME_W="weather_${DATE_TIME}.json"
+
+URL="http://api.weatherapi.com/v1/current.json?key=$WEA_API_KEY&q=$LOCATION"
+
+WEATHER_CODES_FILE='/usr/local/etc/xmobar/weather/data/weather_conditions.json'
+
+#echo $URL
+
+cd $DATUM_STORAGE_DIR
+curl -o $FILE_NAME_W $URL
+
+#cat current.json | jq '.' > prettyfied-current.json
+
+#result=$(grep 'temp_c' | awk '{print $2}')
+
+celsius0=0
+celsius1=10
+celsius2=20
+celsius3=30
+celsius4=40
+
+humidity0=30
+humidity1=70
+humidity2=90
+
+COLOR_DEFAULT='#929AAD'
+
+COLOR_CELSIUS=$COLOR_DEFAULT
+COLOR_HUMIDITY=$COLOR_DEFAULT
+
+if [ -f $FILE_NAME_W ]; then
+    CELSIUS=`jq '.current.temp_c' $FILE_NAME_W`
+    PRESSURE=`jq '.current.pressure_mb' $FILE_NAME_W`
+    HUMIDITY=`jq '.current.humidity' $FILE_NAME_W`
+    CONDITION_CODE=`jq '.current.condition.code' $FILE_NAME_W`
+    MAPPED_CONDITION_CODE=`jq ".[] | select(.code==$CONDITION_CODE).icon" $WEATHER_CODES_FILE`
+
+    #ustawianie kolorow
+    if (( $(echo "$CELSIUS > $celsius4" |bc -l) )); then COLOR_CELSIUS='#ED2224'
+    elif (( $(echo "$CELSIUS > $celsius3" |bc -l) )); then COLOR_CELSIUS='#DB7734'
+    elif (( $(echo "$CELSIUS > $celsius2" |bc -l) )); then COLOR_CELSIUS='#C1A24E'
+    elif (( $(echo "$CELSIUS > $celsius1" |bc -l) )); then COLOR_CELSIUS='#5BB472'
+    elif (( $(echo "$CELSIUS > $celsius0" |bc -l) )); then COLOR_CELSIUS=$COLOR_DEFAULT
+    else
+        COLOR_CELSIUS='#178BF8'
+    fi
+
+    if (( $(echo "$HUMIDITY > $humidity2" |bc -l) )); then COLOR_HUMIDITY='#178BF8'
+    elif (( $(echo "$HUMIDITY > $humidity1" |bc -l) )); then COLOR_HUMIDITY='#5BB472'
+    elif (( $(echo "$HUMIDITY > $humidity0" |bc -l) )); then COLOR_HUMIDITY=$COLOR_DEFAULT
+    else
+        COLOR_HUMIDITY='#C1A24E'
+    fi
+
+    echo "$LOCATION: <icon=$MAPPED_CONDITION_CODE.xpm/> <fc=$COLOR_CELSIUS>$CELSIUS°C</fc> <fc=$COLOR_HUMIDITY>$HUMIDITY%</fc> $PRESSURE hPa"
+else
+    echo "weather: N/A"
+fi
+
+cd

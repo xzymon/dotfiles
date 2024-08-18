@@ -1,0 +1,22 @@
+#!/bin/bash
+
+EXPECTED_PARAM_ID=1
+
+a=0
+b=1
+for loop in $@ ; do
+  a=$((a + b))
+  echo $a : $loop
+  if [[ $EXPECTED_PARAM_ID -eq $a ]]; then
+    if [[ -e $loop ]]; then
+      WALLPAPERS_NEWFILE=${loop}
+    fi
+  fi
+done
+
+if [[ -n ${WALLPAPER_CANDIDATES} ]]; then
+  if [[ ! -e ${WALLPAPER_CANDIDATES} ]]; then
+    mkdir -p ${WALLPAPER_CANDIDATES}
+  fi
+  cp -v ${WALLPAPERS_NEWFILE} ${WALLPAPER_CANDIDATES}
+fi

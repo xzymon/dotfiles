@@ -1,0 +1,13 @@
+#!/bin/sh
+
+PREVOL=`awk -F"[][]" '/Left:/ { print $2 }' <(amixer sget Master)`
+
+amixer -q sset Master 5%-
+
+#pkill -RTMIN+10 dwmblocks
+
+POSTVOL=`awk -F"[][]" '/Left:/ { print $2 }' <(amixer sget Master)`
+
+if [ ${POSTVOL} != ${PREVOL} ]; then
+	notify-send "Volume Level" "Decreased to $POSTVOL"
+fi

@@ -1,0 +1,38 @@
+#   _               _                         
+#  | |             | |                        
+#  | |__   __ _ ___| |__ __   ____ _ _ __ ___ 
+#  | '_ \ / _` / __| '_ \\ \ / / _` | '__/ __|
+# _| |_) | (_| \__ \ | | |\ V / (_| | |  \__ \
+#(_)_.__/ \__,_|___/_| |_| \_/ \__,_|_|  |___/
+#                      ______                 
+#                     |______|                
+
+BASH_SCRIPTS_HOME=~/.bash_scripts
+
+export JAVA_HOME=/opt/jdk/default
+export GRADLE_HOME=/opt/gradle/default
+export MAVEN_HOME=/opt/maven/default
+export IDEA_HOME=/opt/idea/default
+#export ACTIVEMQ_HOME=/opt/activemq/default
+#export ARTEMIS_HOME=/opt/artemis/default
+export TOMCAT_HOME=/opt/tomcat/default
+#export JBOSS_HOME=/opt/jboss
+export WILDFLY_HOME=/opt/wildfly-preview
+export DBEAVER_HOME=/opt/dbeaver
+export NODE_HOME=/opt/node/default
+export NODE16_HOME=/opt/node/16.20.2
+export NODE18_HOME=/opt/node/18.20.3
+export NODE20_HOME=/opt/node/20.14.0
+export H2_HOME=/opt/h2
+
+export PATH=${PATH}:${IDEA}/bin:${JAVA_HOME}/bin:${GRADLE_HOME}/bin:${MAVEN_HOME}/bin:${BASH_SCRIPTS_HOME}:${TOMCAT_HOME}/bin:${WILDFLY_HOME}/bin:${H2_HOME}/bin:${NODE_HOME}/bin
+
+# zmienne na potrzeby mojego mechanizmu ustawiania tla pulpitu 
+export WALLPAPERS_HOME=~/.config/wallpapers
+export WALLPAPER_CANDIDATES=$WALLPAPERS_HOME/candidates
+export WALLPAPERS_CONFIG=$WALLPAPERS_HOME/config.bash
+export WALLPAPER_FILE=$WALLPAPERS_HOME/background
+export WALLPAPERS_OPTIONS=$WALLPAPERS_HOME/options.bash
+if [[ -f "$WALLPAPERS_OPTIONS" ]]; then
+	source $WALLPAPERS_OPTIONS
+fi

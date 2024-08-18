@@ -47,3 +47,14 @@ setup results:
     /usr/local/etc/xmobar/weather/icons/32x32
     /usr/local/etc/xmobar/weather/icons/32x32/*.xpm
 usage: used by script xmbr-weather.bash
+
+## help
+Guides on different topics
+
+## bin
+description: some useful scripts for user
+dir: bin
+path to put: /usr/local/bin
+
+
+

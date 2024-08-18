@@ -1,0 +1,10 @@
+#!/bin/sh
+PREMUTE=`pamixer --get-mute`
+
+pamixer -u
+
+POSTMUTE=`pamixer --get-mute`
+
+if [ ${POSTMUTE} != ${PREMUTE} ]; then
+	notify-send "Unmuted"
+fi

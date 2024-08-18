@@ -1,0 +1,32 @@
+#!/bin/bash
+WALLPAPERS_LIST=$WALLPAPERS_HOME/list.out
+WALLPAPERS_DIR=$WALLPAPER_CANDIDATES
+CONFIG_FIRST_LINE="#!/bin/bash"
+WALLPAPERS_CURSOR_NAME="WALLPAPERS_CURSOR"
+WALLPAPERS_INDEX=0
+
+# Idea:
+# 0. WALLPAPERS_DIR zawiera linki symboliczne do plikow wybranych na tapety
+# 1. Zrzucic liste plikow wybranych na tapety do pliku (1 nazwa pliku na wiersz)
+# 2. W jakis sposob osiagnac numerowanie plikow i iterowanie po nich -> nazwe pliku ktory ma byc tapeta w danej chwili nalezy umiescic w pliku WALLPAPERS_FILE - skrypt powinien iterowac po liscie i kolejno wstawiac nazwy plikow do WALLPAPERS_FILE
+# 3. skrypt /inny - poza ramami tego skryptu/ ustawiony w cron powinien byc regularnie odpalany i wykonywac ustawienie na tapete tego co aktualnie znajduje sie w pliku WALLPAPERS_FILE + zapewne powinien tez wywolac ten skrypt by zrobic iteracje o +1
+
+WALLPAPERS_CURSOR=$WALLPAPERS_INDEX
+if [[ -f "$WALLPAPERS_CONFIG" ]]; then
+	source $WALLPAPERS_CONFIG
+fi
+WALLPAPERS_INDEX=$WALLPAPERS_CURSOR
+echo $WALLPAPERS_CURSOR
+WALLPAPERS_CURSOR=$((WALLPAPERS_CURSOR + 1))
+echo $CONFIG_FIRST_LINE > $WALLPAPERS_CONFIG
+echo export $WALLPAPERS_CURSOR_NAME=$WALLPAPERS_CURSOR > $WALLPAPERS_CONFIG
+ls -1 $WALLPAPERS_DIR > $WALLPAPERS_LIST
+LINES=`wc -l $WALLPAPERS_LIST | awk '{ print $1 }'`
+echo LINES=$LINES
+NEW_WALLPAPER_ID=$((WALLPAPERS_INDEX % LINES))
+NEW_WALLPAPER_ID=$((NEW_WALLPAPER_ID+1))
+echo $NEW_WALLPAPER_ID
+NEW_WALLPAPER_FILE_NAME=`sed "${NEW_WALLPAPER_ID}q;d" $WALLPAPERS_LIST`
+echo $NEW_WALLPAPER_FILE_NAME
+
+cp -v $WALLPAPERS_DIR/$NEW_WALLPAPER_FILE_NAME $WALLPAPER_FILE

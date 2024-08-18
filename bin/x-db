@@ -1,0 +1,5 @@
+#!/bin/bash
+DBEAVER_HOME=/opt/dbeaver
+JVM=/opt/jdk/default/bin
+
+${DBEAVER_HOME}/dbeaver -vm ${JVM}

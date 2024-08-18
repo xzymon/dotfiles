@@ -1,0 +1,40 @@
+#    _               _            _ _                     
+#   | |             | |          | (_)                    
+#   | |__   __ _ ___| |__    __ _| |_  __ _ ___  ___  ___ 
+#   | '_ \ / _` / __| '_ \  / _` | | |/ _` / __|/ _ \/ __|
+#  _| |_) | (_| \__ \ | | || (_| | | | (_| \__ \  __/\__ \
+# (_)_.__/ \__,_|___/_| |_| \__,_|_|_|\__,_|___/\___||___/
+#                       ______                            
+#                      |______|                           
+#
+#alias __git_ps1=
+
+#respawn AOC monitor after crash
+alias respawn='xrandr --output HDMI-0 --mode 1920x1080 --left-of eDP-1-1'
+
+#scripts
+
+#useful
+alias ls='ls --color=auto'
+alias la='ls -al'
+
+#git aliases
+# Git Add Repository | usage: gar repoNameAlias repoURL | purpose: to link local repository with remote repository
+alias gar='git remote add'
+alias gis='git status'
+alias ga='git add'
+# Git UNdo Add | usage: guna file
+alias guna='git reset HEAD --'
+# GIt Commit | usage: gic "Some commit description"
+alias gic='git commit -m'
+alias gb='git branch'
+alias go='git checkout'
+# Git pusH Origin Curren_branch | usage: ghoc //alone, no extensions
+alias ghoc='CUR_BRANCH=`git rev-parse --abbrev-ref HEAD` && git push origin $CUR_BRANCH'
+alias gl='git pull'
+alias glo='git pull origin'
+alias gloc='CUR_BRANCH=`git rev-parse --abbrev-ref HEAD` && git pull origin $CUR_BRANCH'
+
+#path aliases
+alias idea='sh /opt/idea/default/bin/idea.sh'
+

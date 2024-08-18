@@ -1,0 +1,13 @@
+#!/bin/bash
+MUTE=`pamixer --get-mute`
+VOLUME=`pamixer --get-volume`
+
+if [[ "$MUTE" == "true" ]]; then
+    echo "<fc=#8B0000><fn=3></fn></fc>"
+elif [ "$VOLUME" -lt 25 ]; then
+    echo "<fc=#696B71><fn=3></fn> $VOLUME%</fc>"
+elif [ "$VOLUME" -lt 77 ]; then
+    echo "<fc=#DFDFDF><fn=3></fn> $VOLUME%</fc>"
+else
+    echo "<fc=#ED2224><fn=3></fn> $VOLUME%</fc>"
+fi

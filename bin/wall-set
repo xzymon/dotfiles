@@ -1,0 +1,2 @@
+#!/bin/bash
+xwallpaper ${WALLPAPERS_MODE} $WALLPAPER_FILE

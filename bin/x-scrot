@@ -1,0 +1,37 @@
+#!/bin/bash
+
+IMG_PATH=~/Images/scrot
+
+prog="
+---Local screenshots (saved at IMG_PATH)---
+1.fullscreen
+2.section
+3.fullscreen2clipboard
+4.section2clipboard
+"
+
+cmd=$(dmenu -l 20 -nf '#999' -nb '#29293e' -sf '#eee' -sb '#0077bb' -p 'Choose Screenshot Type' <<< "$prog")
+
+if [[ ! -d $IMG_PATH ]] ; then
+	mkdir -p $IMG_PATH
+	if [[ $? -eq 0 ]] ; then
+		notify-send 'New directory' "Directory $IMG_PATH created"
+	else
+		notify-send 'Error' "Cant create directory $IMG_PATH"
+	fi
+fi
+
+if [[ -d $IMG_PATH ]] ; then
+	cd $IMG_PATH
+	case ${cmd%% *} in
+
+		1.fullscreen) scrot -d 1 -q 100 '%Y-%m-%dT%H-%M-%S_full.png' && notify-send 'Scrot' 'Fullscreen taken and saved' ;;
+		2.section) scrot -shole -q 100 '%Y-%m-%dT%H-%M-%S_$wx$h.png' && notify-send 'Scrot' 'Screenshot of section saved' ;;
+		3.fullscreen2clipboard) scrot -d 1 -q 100 '%Y-%m-%dT%H-%M-%S_full.png' -e 'xclip -selection clipboard -target image/png -i $f' && notify-send 'Scrot' 'Fullscreen taken, saved and sent to clipboard' ;;
+		4.section2clipboard) scrot -shole -q 100 '%Y-%m-%dT%H-%M-%S_$wx$h.png' -e 'xclip -selection clipboard -target image/png -i $f' && notify-send 'Scrot' 'Screenshot of section saved and sent to clipboard' ;;
+
+		*) exec "'${cmd}'" ;;
+	esac
+	cd -
+fi
+
